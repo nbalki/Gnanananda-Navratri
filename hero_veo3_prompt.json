@@ -1,0 +1,76 @@
+{
+  "model": "veo-3",
+  "duration_seconds": 8,
+  "fps": 24,
+  "resolution": {
+    "width": 1920,
+    "height": 1080
+  },
+  "seed": 311,
+  "palette": [
+    "#f59e0b",
+    "#9b1c1c",
+    "#0e7490",
+    "#e5e7eb"
+  ],
+  "style": {
+    "look": "expressionist_fauvism_painterly",
+    "grain": "fine",
+    "saturation": "rich_warm",
+    "motion_blur": "subtle"
+  },
+  "safety": {
+    "disallow_portraits": true,
+    "avoid_explicit_idols": true,
+    "avoid_text_rendering": false
+  },
+  "negatives": [
+    "blurry",
+    "watermarks",
+    "logos",
+    "neon_harsh",
+    "text_artifacts"
+  ],
+  "scenes": [
+    {
+      "time": "0s-8s",
+      "environment": "sacred ambience with floating diyas on gentle water, saffron clouds, golden dusk light, soft temple bell particles",
+      "camera": {
+        "move": "slow_dolly_in",
+        "lens": "35mm",
+        "ease": "sine_in_out"
+      },
+      "subject": "symbolic Devi presence via radiant mandala aura and lotus-petal particles (non-photoreal, reverent)",
+      "lighting": "golden hour, volumetric beams through incense",
+      "fx": [
+        "soft bokeh",
+        "floating lotus petals",
+        "glittering kumkum sparks"
+      ],
+      "text_overlays": [
+        {
+          "text": "Navratri 2025",
+          "font": "elegant_serif_display",
+          "style": "subtle_gold_emboss",
+          "in": 0.7,
+          "out": 6.0,
+          "position": "center"
+        },
+        {
+          "text": "Sri Gnanananda Tapovanam \u00b7 Tirukovilur",
+          "font": "clean_sans",
+          "style": "warm_white",
+          "in": 1.2,
+          "out": 6.0,
+          "position": "center_bottom"
+        }
+      ]
+    }
+  ],
+  "output": {
+    "format": "mp4",
+    "loop_seamless": true,
+    "include_audio": false
+  },
+  "notes": "Export as 8s 1080p MP4 and place it at public/hero.mp4 for the site."
+}
