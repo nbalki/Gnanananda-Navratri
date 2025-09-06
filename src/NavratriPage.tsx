@@ -115,7 +115,7 @@ export default function NavratriPage() {
 <section className="relative min-h-[56vh] md:min-h-[72vh]">
   {/* Background image (webp fallback to png) */}
   <picture className="absolute inset-0 -z-10 block">
-    <source srcSet="/hero.webp" type="image/webp" />
+    <source srcSet="/hero.png" type="image/png" />
     {/* Use leading slash — Vite serves files from /public */}
     <img
       src="/hero.png?v=1"
