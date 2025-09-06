@@ -115,10 +115,10 @@ export default function NavratriPage() {
 <section className="relative min-h-[56vh] md:min-h-[72vh]">
   {/* Background image (webp fallback to png) */}
   <picture className="absolute inset-0 -z-10 block">
-    <source srcSet="/hero.png" type="image/png" />
+    <img src="/hero2.png" alt="Hero" />
     {/* Use leading slash — Vite serves files from /public */}
     <img
-      src="/hero.png?v=1"
+      src="/hero2.png?v=1"
       alt="Navratri Golu festival hero"
       loading="eager"
       className="w-full h-full object-cover object-center"
