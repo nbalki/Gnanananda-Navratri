@@ -29,10 +29,7 @@ const palette = {
 
 function useCountdown(target: Date) {
   const [now, setNow] = useState<Date>(new Date());
-  useEffect(() => {
-    const id = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(id);
-  }, []);
+  useEffect(() => { const id = setInterval(() => setNow(new Date()), 1000); return () => clearInterval(id); }, []);
   const ms = Math.max(0, toIST(target).getTime() - toIST(now).getTime());
   const totalSecs = Math.floor(ms / 1000);
   const days = Math.floor(totalSecs / 86400);
@@ -51,17 +48,10 @@ const Stat: React.FC<{ label: string; value: string | number }> = ({ label, valu
 
 const SacredBackdrop: React.FC = () => (
   <div aria-hidden className="fixed inset-0 -z-10 overflow-hidden">
-    <div
-      className="absolute -top-32 left-1/2 -translate-x-1/2 w-[120vmax] h-[120vmax] rounded-full opacity-30"
-      style={{ background: `radial-gradient(closest-side, ${palette.turmeric}, transparent 70%)` }}
-    />
-    <div
-      className="absolute inset-0 opacity-20"
-      style={{
-        backgroundImage: `radial-gradient(circle at 50% 40%, rgba(255,255,255,0.2) 1px, transparent 1px)`,
-        backgroundSize: "24px 24px",
-      }}
-    />
+    <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[120vmax] h-[120vmax] rounded-full opacity-30"
+         style={{ background: `radial-gradient(closest-side, ${palette.turmeric}, transparent 70%)` }} />
+    <div className="absolute inset-0 opacity-20"
+         style={{ backgroundImage: `radial-gradient(circle at 50% 40%, rgba(255,255,255,0.2) 1px, transparent 1px)`, backgroundSize: "24px 24px" }} />
     <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.35))" }} />
   </div>
 );
@@ -109,119 +99,116 @@ export default function NavratriPage() {
             </div>
           </div>
           <nav className="hidden md:flex items-center gap-6 text-sm opacity-90">
-            <a href="#schedule" className="hover:opacity-100">
-              Daily Programme
-            </a>
-            <a href="#navratri" className="hover:opacity-100">
-              Navratri 2025
-            </a>
-            <a href="#seva" className="hover:opacity-100">
-              Seva & Pooja
-            </a>
-            <a href="#visit" className="hover:opacity-100">
-              Visit
-            </a>
-            <a href="#contact" className="hover:opacity-100">
-              Contact
-            </a>
+            <a href="#schedule" className="hover:opacity-100">Daily Programme</a>
+            <a href="#navratri" className="hover:opacity-100">Navratri 2025</a>
+            <a href="#seva" className="hover:opacity-100">Seva & Pooja</a>
+            <a href="#visit" className="hover:opacity-100">Visit</a>
+            <a href="#contact" className="hover:opacity-100">Contact</a>
           </nav>
           <div className="flex items-center gap-3">
-            <a
-              href="https://pooja.gnanananda.org"
-              target="_blank"
-              rel="noreferrer"
-              className="px-3 py-2 text-sm rounded-xl bg-white text-black font-semibold hover:opacity-90"
-            >
-              Online Pooja Booking
-            </a>
+            <a href="https://pooja.gnanananda.org" target="_blank" rel="noreferrer" className="px-3 py-2 text-sm rounded-xl bg-white text-black font-semibold hover:opacity-90">Online Pooja Booking</a>
           </div>
         </div>
       </header>
 
-      {/* Hero with static image background */}
-      <section className="relative">
-        <div className="absolute inset-0 -z-10 overflow-hidden">
-          <img src="public/hero.png" alt="Navratri hero" className="w-full h-full object-cover opacity-45" />
-          <div
-            className="absolute inset-0"
-            style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.70))" }}
-          />
-        </div>
+/* Hero — full-bleed image background with left content + right card */
+<section className="relative min-h-[56vh] md:min-h-[72vh]">
+  {/* Background image (webp fallback to png) */}
+  <picture className="absolute inset-0 -z-10 block">
+    <source srcSet="/hero.webp" type="image/webp" />
+    {/* Use leading slash — Vite serves files from /public */}
+    <img
+      src="/hero.png?v=1"
+      alt="Navratri Golu festival hero"
+      loading="eager"
+      className="w-full h-full object-cover object-center"
+      style={{ objectPosition: "40% 48%" }} /* tweak this to align subject */
+    />
+  </picture>
 
-        <div className="max-w-7xl mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
-          <div>
-            <h1 className="text-3xl md:text-5xl font-extrabold leading-tight">
-              Navratri 2025 at{" "}
-              <span
-                className="text-transparent bg-clip-text"
-                style={{ backgroundImage: `linear-gradient(90deg, ${palette.turmeric}, ${palette.kumkum})` }}
-              >
-                Sri Gnanananda Tapovanam
-              </span>
-            </h1>
-            <p className="mt-4 text-sm md:text-base opacity-90">
-              “Guru Bhakti would help us to do service with humility, destroy our ego and be a constant source of inner strength.”
-            </p>
-            <p className="mt-2 text-xs opacity-70">— A guiding thought cherished at Tapovanam</p>
+  {/* Readability gradient + subtle vignette */}
+  <div
+    aria-hidden
+    className="absolute inset-0 -z-5"
+    style={{
+      background:
+        "linear-gradient(180deg, rgba(2,6,23,0.72) 0%, rgba(2,6,23,0.45) 35%, rgba(0,0,0,0.55) 100%)",
+      mixBlendMode: "multiply",
+    }}
+  />
 
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              {period === "pre" && (
-                <>
-                  <Stat label="Days" value={beforeNav.days} />
-                  <Stat label="Hours" value={beforeNav.hours} />
-                  <Stat label="Minutes" value={beforeNav.minutes} />
-                  <Stat label="Seconds" value={beforeNav.seconds} />
-                  <span className="text-sm opacity-80">until Navratri begins (22 Sept, 2025)</span>
-                </>
-              )}
-              {period === "during" && (
-                <>
-                  <Stat label="Days Left" value={duringNav.days} />
-                  <Stat label="Hours" value={duringNav.hours} />
-                  <Stat label="Minutes" value={duringNav.minutes} />
-                  <Stat label="Seconds" value={duringNav.seconds} />
-                  <span className="text-sm opacity-80">of Navratri · Maha Navami on 1 Oct, Vijayadashami on 2 Oct</span>
-                </>
-              )}
-              {period === "post" && <span className="text-sm opacity-80">Navratri 2025 has concluded. Jai Maa!</span>}
-            </div>
+  <div className="max-w-7xl mx-auto px-6 py-16 md:py-24 grid md:grid-cols-2 gap-8 items-center">
+    {/* Left: Title, quote, countdown, CTAs */}
+    <div className="text-white">
+      <h1 className="text-4xl md:text-5xl font-extrabold leading-tight drop-shadow-[0_6px_16px_rgba(0,0,0,0.55)]">
+        Navratri 2025 at{" "}
+        <span
+          className="text-transparent bg-clip-text"
+          style={{ backgroundImage: "linear-gradient(90deg,#f59e0b,#9b1c1c)" }}
+        >
+          Sri Gnanananda Tapovanam
+        </span>
+      </h1>
 
-            <div className="mt-6 flex flex-wrap gap-3">
-              <a href="#navratri" className="px-4 py-2 rounded-xl bg-white/10 border border-white/20 hover:bg-white/15">
-                View Schedule
-              </a>
-              <a href="#seva" className="px-4 py-2 rounded-xl bg-white text-black font-semibold hover:opacity-90">
-                Offer Seva
-              </a>
-            </div>
-          </div>
+      <p className="mt-4 max-w-2xl text-sm md:text-lg opacity-90">
+        “Guru Bhakti would help us to do service with humility, destroy our ego and be a constant source of inner strength.”
+      </p>
+      <p className="mt-2 text-xs opacity-70">— A guiding thought cherished at Tapovanam</p>
 
-          <div className="relative">
-            <div className="rounded-3xl bg-white/5 border border-white/10 p-6 md:p-8 shadow-2xl">
-              <div className="text-sm uppercase tracking-widest opacity-80">Festival Window</div>
-              <div className="mt-2 text-xl font-semibold">Mon, 22 Sept → Wed, 1 Oct (Vijayadashami: Thu, 2 Oct)</div>
-              <ul className="mt-4 space-y-2 text-sm opacity-90 list-disc list-inside">
-                <li>Ghatasthapana & Shailaputri Puja — 22 Sept (Morning)</li>
-                <li>Durga Ashtami — 29 Sept · Maha Navami — 30 Sept</li>
-                <li>Vijayadashami Deepotsava — 2 Oct (Ashram timings TBD)</li>
-              </ul>
-              <div className="mt-6 grid grid-cols-2 gap-3">
-                <a
-                  href="https://pooja.gnanananda.org"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="px-4 py-3 rounded-xl bg-white text-black font-semibold text-center"
-                >
-                  Book Pooja
-                </a>
-                <a href="#contact" className="px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-center">
-                  Talk to Office
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <div className="mt-6 flex flex-wrap items-center gap-3">
+        {period === "pre" && (
+          <>
+            <Stat label="Days" value={beforeNav.days} />
+            <Stat label="Hours" value={beforeNav.hours} />
+            <Stat label="Minutes" value={beforeNav.minutes} />
+            <Stat label="Seconds" value={beforeNav.seconds} />
+            <span className="text-sm opacity-80 w-full md:w-auto mt-2 md:mt-0">
+              until Navratri begins (22 Sept, 2025)
+            </span>
+          </>
+        )}
+        {period === "during" && (
+          <>
+            <Stat label="Days Left" value={duringNav.days} />
+            <Stat label="Hours" value={duringNav.hours} />
+            <Stat label="Minutes" value={duringNav.minutes} />
+            <Stat label="Seconds" value={duringNav.seconds} />
+            <span className="text-sm opacity-80">of Navratri · Maha Navami on 1 Oct</span>
+          </>
+        )}
+        {period === "post" && <span className="text-sm opacity-80">Navratri 2025 has concluded. Jai Maa!</span>}
+      </div>
+
+      <div className="mt-6 flex flex-wrap gap-3">
+        <a href="#navratri" className="px-4 py-2 rounded-xl bg-white/10 border border-white/20 hover:bg-white/15">
+          View Schedule
+        </a>
+        <a href="#seva" className="px-4 py-2 rounded-xl bg-white text-black font-semibold hover:opacity-90">
+          Offer Seva
+        </a>
+      </div>
+    </div>
+
+    {/* Right: Festival window card */}
+    <aside className="rounded-3xl bg-white/6 border border-white/8 p-6 md:p-8 shadow-2xl backdrop-blur-sm text-white">
+      <div className="text-xs uppercase tracking-widest opacity-80">Festival Window</div>
+      <div className="mt-2 text-xl font-semibold">Mon, 22 Sept → Wed, 1 Oct (Vijayadashami: Thu, 2 Oct)</div>
+      <ul className="mt-4 space-y-2 text-sm opacity-90 list-disc list-inside">
+        <li>Ghatasthapana & Shailaputri Puja — 22 Sept (Morning)</li>
+        <li>Durga Ashtami — 29 Sept · Maha Navami — 30 Sept</li>
+        <li>Vijayadashami Deepotsava — 2 Oct (Ashram timings TBD)</li>
+      </ul>
+      <div className="mt-6 grid grid-cols-2 gap-3">
+        <a href="https://pooja.gnanananda.org" target="_blank" rel="noreferrer" className="px-4 py-3 rounded-xl bg-white text-black font-semibold text-center">
+          Book Pooja
+        </a>
+        <a href="#contact" className="px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-center">
+          Talk to Office
+        </a>
+      </div>
+    </aside>
+  </div>
+</section>
 
       <section id="navratri" className="relative py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4">
@@ -232,9 +219,7 @@ export default function NavratriPage() {
               <div key={idx} className="rounded-2xl border border-white/10 bg-white/5 p-4">
                 <div className="flex items-baseline justify-between">
                   <span className="text-xs uppercase opacity-70">Day {idx}</span>
-                  <span className="text-sm opacity-80">
-                    {toIST(date).toLocaleDateString("en-IN", { weekday: "short", day: "2-digit", month: "short" })}
-                  </span>
+                  <span className="text-sm opacity-80">{toIST(date).toLocaleDateString("en-IN", { weekday: "short", day: "2-digit", month: "short" })}</span>
                 </div>
                 <div className="mt-2 text-xl font-semibold">Maa {devi.key}</div>
                 <div className="text-sm opacity-80">{devi.ta}</div>
@@ -267,21 +252,10 @@ export default function NavratriPage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8">
             <h2 className="text-2xl md:text-3xl font-bold">Offer Seva · Make a Sankalpa</h2>
-            <p className="mt-2 text-sm opacity-90">
-              Participate through Pooja bookings, Annadanam, Flowers/Deepam offerings, and volunteer service.
-            </p>
+            <p className="mt-2 text-sm opacity-90">Participate through Pooja bookings, Annadanam, Flowers/Deepam offerings, and volunteer service.</p>
             <div className="mt-5 flex flex-wrap gap-3">
-              <a
-                className="px-5 py-3 rounded-xl bg-white text-black font-semibold"
-                href="https://pooja.gnanananda.org"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Online Pooja Booking
-              </a>
-              <a className="px-5 py-3 rounded-xl bg-white/10 border border-white/20" href="#contact">
-                Annadanam / Enquiries
-              </a>
+              <a className="px-5 py-3 rounded-xl bg-white text-black font-semibold" href="https://pooja.gnanananda.org" target="_blank" rel="noreferrer">Online Pooja Booking</a>
+              <a className="px-5 py-3 rounded-xl bg-white/10 border border-white/20" href="#contact">Annadanam / Enquiries</a>
             </div>
           </div>
         </div>
@@ -293,18 +267,9 @@ export default function NavratriPage() {
           <div className="mt-4 grid lg:grid-cols-3 gap-4">
             <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
               <div className="font-semibold">Location</div>
-              <p className="mt-1 text-sm opacity-90">
-                On the Tirukovilur – Tiruvannamalai bus route, near Kuladeepamangalam, Tamil Nadu 605756.
-              </p>
+              <p className="mt-1 text-sm opacity-90">On the Tirukovilur – Tiruvannamalai bus route, near Kuladeepamangalam, Tamil Nadu 605756.</p>
               <div className="mt-3">
-                <a
-                  className="text-sm underline"
-                  target="_blank"
-                  rel="noreferrer"
-                  href="https://www.google.com/maps/search/?api=1&query=Gnanananda+Tapovanam+Thirukovilur"
-                >
-                  Open in Google Maps
-                </a>
+                <a className="text-sm underline" target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/?api=1&query=Gnanananda+Tapovanam+Thirukovilur">Open in Google Maps</a>
               </div>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
@@ -318,11 +283,7 @@ export default function NavratriPage() {
             <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
               <div className="font-semibold">First‑time Devotees</div>
               <p className="mt-1 text-sm opacity-90">Newcomers are welcome. Please arrive a little early for morning darshan and pooja tickets.</p>
-              <div className="mt-3">
-                <a className="text-sm underline" href="#contact">
-                  Call the office for guidance
-                </a>
-              </div>
+              <div className="mt-3"><a className="text-sm underline" href="#contact">Call the office for guidance</a></div>
             </div>
           </div>
         </div>
@@ -335,53 +296,24 @@ export default function NavratriPage() {
             <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
               <div className="text-sm opacity-80">Phone</div>
               <div className="mt-1 font-semibold space-y-1">
-                <a href="tel:+917598365175" className="block">
-                  +91 75983 65175
-                </a>
-                <a href="tel:+917598375175" className="block">
-                  +91 75983 75175
-                </a>
+                <a href="tel:+917598365175" className="block">+91 75983 65175</a>
+                <a href="tel:+917598375175" className="block">+91 75983 75175</a>
               </div>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
               <div className="text-sm opacity-80">Email</div>
-              <a href="mailto:office@gnanananda.org" className="mt-1 block font-semibold">
-                office@gnanananda.org
-              </a>
+              <a href="mailto:office@gnanananda.org" className="mt-1 block font-semibold">office@gnanananda.org</a>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
               <div className="text-sm opacity-80">Useful Links</div>
               <div className="mt-1 flex flex-col gap-2 text-sm">
-                <a
-                  className="underline"
-                  href="https://gnanananda.org"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Official Website
-                </a>
-                <a
-                  className="underline"
-                  href="https://pooja.gnanananda.org"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Online Pooja Booking
-                </a>
-                <a
-                  className="underline"
-                  href="https://gnanananda.org/daily-programme/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Daily Programme
-                </a>
+                <a className="underline" href="https://gnanananda.org" target="_blank" rel="noreferrer">Official Website</a>
+                <a className="underline" href="https://pooja.gnanananda.org" target="_blank" rel="noreferrer">Online Pooja Booking</a>
+                <a className="underline" href="https://gnanananda.org/daily-programme/" target="_blank" rel="noreferrer">Daily Programme</a>
               </div>
             </div>
           </div>
-          <p className="mt-4 text-xs opacity-70">
-            For festival‑specific homams/alankarams, final timings will be announced by the Ashram office.
-          </p>
+          <p className="mt-4 text-xs opacity-70">For festival‑specific homams/alankarams, final timings will be announced by the Ashram office.</p>
         </div>
       </section>
 
